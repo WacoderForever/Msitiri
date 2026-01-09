@@ -1,0 +1,92 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{longtable}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Mstiri – Stage 1}
+\lhead{Requirements Document}
+\cfoot{\thepage}
+
+\title{\textbf{Mstiri: Smart Deal Analysis System for Kenya's Second-Hand Market}\\
+\large Stage 1 – Requirements Gathering \& Analysis}
+\author{Seth Omondi Otieno \\ S13/04402/21}
+\date{\today}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+
+\section*{1.1 Stakeholders and Users}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4cm} p{4cm} p{6cm}}
+\toprule
+\textbf{Stakeholder / User} & \textbf{Role} & \textbf{Key Needs} \\
+\midrule
+Kenyan Buyers & Primary end-users & Quick visual deal spotting \\
+Farmers buying used equipment & Secondary end-users & Affordable tractors, pumps, etc. \\
+You (Developer) & Student & Demonstrable prototype, grades \\
+Lecturer & Evaluator & Structured SDLC, C usage \\
+Auto Dealers / Vendors & Potential partners & Market insights \\
+iHub / Jiji.co.ke & Collaborators & Scalable Kenyan solution \\
+\bottomrule
+\end{tabular}
+
+\section*{1.2 Functional Requirements}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.8cm} p{6cm} >{\centering\arraybackslash}p{1.8cm} p{5cm}}
+\toprule
+\textbf{ID} & \textbf{Requirement} & \textbf{Priority} & \textbf{Details} \\
+\endhead
+\midrule
+FR-01 & Category Selection & High & Dropdown: Electronics, Machines, Laptops, Vehicles, Motorbikes \\
+FR-02 & Item Search & High & Partial-match text input \\
+FR-03 & Data Loading & High & Load \texttt{goods.csv} at start \\
+FR-04 & Dynamic Graph Generation & High & Scatter plot (Price vs. Key Attribute) \\
+FR-05 & Data Filtering & High & Filter by category + item → JSON \\
+FR-06 & Dynamic Axis Labels & Medium & Vary per category \\
+FR-07 & Basic Deal Insights & Medium & Show count, optional average \\
+FR-08 & Error Handling & High & “No data found” message \\
+\textbf{FR-09} & \textbf{Save Graph} & \textbf{Medium} & Download as PNG/JPEG \\
+\bottomrule
+\end{longtable}
+
+\section*{1.3 Non-Functional Requirements}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.8cm} p{6cm} >{\centering\arraybackslash}p{1.8cm} p{5cm}}
+\toprule
+\textbf{ID} & \textbf{Requirement} & \textbf{Priority} & \textbf{Details} \\
+\midrule
+NFR-01 & Performance & High & ≤ 2 s on 2G \\
+NFR-02 & Usability & High & 3-click flow, responsive \\
+NFR-03 & Accessibility & Medium & Chrome/Firefox (Android + desktop) \\
+NFR-04 & Reliability & High & ≥ 500 rows without crash \\
+NFR-05 & Security & Low & No user data stored \\
+NFR-06 & Maintainability & High & Modular C, comments \\
+NFR-07 & Kenyan Context & Medium & KES, local items, optional Sheng \\
+NFR-08 & Technology & High & C core + optional Python scripts \\
+\bottomrule
+\end{tabular}
+
+\section*{1.4 Scope, Assumptions \& Constraints}
+\begin{itemize}
+\item \textbf{In-Scope:} CSV loading, C HTTP server, HTML/JS/Chart.js, save-graph.
+\item \textbf{Out-of-Scope:} Real-time scraping, authentication, payments.
+\item \textbf{Assumptions:} Internet, accurate CSV, single-user testing.
+\item \textbf{Constraints:} Free tools, C + optional Python, 2–3 week prototype.
+\item \textbf{Testing Devices:} Laptop (Ubuntu/Windows) + Android smartphone.
+\item \textbf{Success Criteria:} Demo: select → type → graph → save PNG.
+\end{itemize}
+
+\section*{Risks \& Mitigation}
+\begin{tabular}{l l l}
+\toprule
+\textbf{Risk} & \textbf{Impact} & \textbf{Mitigation} \\
+\midrule
+CSV parsing errors & Data loss & Unit-test with 5-row sample \\
+Chart.js CDN failure & Blank graph & Offline copy of Chart.js \\
+Slow on rural 2G & Poor UX & Keep JSON ≤ 10 KB \\
+\bottomrule
+\end{tabular}
+
+\end{document}

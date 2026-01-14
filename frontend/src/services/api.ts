@@ -64,11 +64,15 @@ export interface ApiError {
 
 // Token management functions
 export const getAccessToken = (): string | null => {
-  return localStorage.getItem('access_token');
+  const token = localStorage.getItem('access_token');
+  console.log('🔑 Getting access token:', token ? `${token.substring(0, 30)}...` : 'Not found');
+  return token;
 };
 
 export const getRefreshToken = (): string | null => {
-  return localStorage.getItem('refresh_token');
+  const token = localStorage.getItem('refresh_token');
+  console.log('🔄 Getting refresh token:', token ? `${token.substring(0, 30)}...` : 'Not found');
+  return token;
 };
 
 export const getUser = (): User | null => {
@@ -77,14 +81,35 @@ export const getUser = (): User | null => {
 };
 
 export const storeTokens = (access: string, refresh: string): void => {
-  localStorage.setItem('access_token', access);
-  localStorage.setItem('refresh_token', refresh);
-  api.defaults.headers.common['Authorization'] = `Bearer ${access}`;
-  console.log('Tokens stored successfully');
+  console.log('💾 Storing tokens:', {
+    accessLength: access.length,
+    refreshLength: refresh.length,
+    accessPreview: access.substring(0, 30) + '...',
+    refreshPreview: refresh.substring(0, 30) + '...',
+  });
+  
+  // Clean tokens
+  const cleanAccess = access.trim();
+  const cleanRefresh = refresh.trim();
+  
+  localStorage.setItem('access_token', cleanAccess);
+  localStorage.setItem('refresh_token', cleanRefresh);
+  api.defaults.headers.common['Authorization'] = `Bearer ${cleanAccess}`;
+  
+  console.log('✅ Tokens stored successfully');
+  
+  // Verify storage
+  const storedAccess = localStorage.getItem('access_token');
+  const storedRefresh = localStorage.getItem('refresh_token');
+  console.log('🔍 Storage verification:', {
+    accessMatches: storedAccess === cleanAccess,
+    refreshMatches: storedRefresh === cleanRefresh,
+  });
 };
 
 export const storeUser = (user: User): void => {
   localStorage.setItem('user', JSON.stringify(user));
+  console.log('👤 User stored:', user.email);
 };
 
 export const clearTokens = (): void => {
@@ -92,19 +117,30 @@ export const clearTokens = (): void => {
   localStorage.removeItem('refresh_token');
   localStorage.removeItem('user');
   delete api.defaults.headers.common['Authorization'];
-  console.log('Tokens cleared');
+  console.log('🗑️ Tokens cleared');
 };
 
 export const isAuthenticated = (): boolean => {
   const token = getAccessToken();
-  if (!token) return false;
+  if (!token) {
+    console.log('🔐 No token found - not authenticated');
+    return false;
+  }
   
   // Check if token is expired
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
     const isExpired = payload.exp * 1000 < Date.now();
-    return !isExpired;
+    const authenticated = !isExpired;
+    console.log('🔐 Authentication check:', {
+      userId: payload.user_id,
+      expires: new Date(payload.exp * 1000),
+      isExpired,
+      authenticated,
+    });
+    return authenticated;
   } catch {
+    console.log('🔐 Token decode failed - not authenticated');
     return false;
   }
 };
@@ -116,6 +152,9 @@ api.interceptors.request.use(
     const token = getAccessToken();
     if (token && !config.headers['Authorization']) {
       config.headers['Authorization'] = `Bearer ${token}`;
+      console.log('🔐 Added Authorization header to request:', config.url);
+    } else if (!token) {
+      console.log('⚠️ No token found for request:', config.url);
     }
     
     // Log request for debugging (only in development)
@@ -129,7 +168,7 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.error('Request error:', error);
+    console.error('❌ Request error:', error);
     return Promise.reject(error);
   }
 );
@@ -144,13 +183,14 @@ api.interceptors.response.use(
     return response;
   },
   async (error: AxiosError<ApiError>) => {
-    const originalRequest = error.config;
+    // Cast to custom type to include _retry property
+    const originalRequest = error.config as CustomAxiosRequestConfig;
     
-    // Log error for debugging
-    console.error('API Error:', {
+    console.error('❌ API Error:', {
+      url: error.config?.url,
       status: error.response?.status,
       data: error.response?.data,
-      url: error.config?.url,
+      message: error.message,
     });
     
     // Handle 401 Unauthorized - try to refresh token
@@ -160,6 +200,7 @@ api.interceptors.response.use(
       // Skip token refresh for login/register endpoints
       if (originalRequest.url?.includes('/auth/login/') || 
           originalRequest.url?.includes('/auth/register/')) {
+        console.log('⚠️ Skipping token refresh for auth endpoints');
         return Promise.reject(error);
       }
       
@@ -169,7 +210,7 @@ api.interceptors.response.use(
           throw new Error('No refresh token available');
         }
         
-        console.log('Attempting token refresh...');
+        console.log('🔄 Attempting token refresh...');
         
         // Call refresh token endpoint
         const refreshResponse = await axios.post<{ access: string }>(
@@ -179,27 +220,28 @@ api.interceptors.response.use(
         );
         
         const newAccessToken = refreshResponse.data.access;
+        console.log('✅ Token refreshed successfully');
         
         // Store new token
         localStorage.setItem('access_token', newAccessToken);
         api.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
         
-        console.log('Token refreshed successfully');
-        
-        // Retry original request with new token
+        // Update original request headers
         if (originalRequest.headers) {
           originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
         }
         
+        // Retry original request with new token
         return api(originalRequest);
       } catch (refreshError) {
-        console.error('Token refresh failed:', refreshError);
+        console.error('❌ Token refresh failed:', refreshError);
         
         // Clear tokens and redirect to login
         clearTokens();
         
         // Only redirect if we're not already on login page
         if (!window.location.pathname.includes('/login')) {
+          console.log('🔀 Redirecting to login page...');
           window.location.href = '/login';
         }
         
@@ -209,51 +251,96 @@ api.interceptors.response.use(
     
     // Handle other errors
     if (error.response?.status === 403) {
-      console.error('Access forbidden');
+      console.error('⛔ Access forbidden');
     } else if (error.response?.status === 404) {
-      console.error('Resource not found');
+      console.error('🔍 Resource not found');
     } else if (error.response?.status === 500) {
-      console.error('Server error');
+      console.error('💥 Server error');
     } else if (!error.response) {
-      console.error('Network error - please check your connection');
+      console.error('📡 Network error - please check your connection');
     }
     
     return Promise.reject(error);
   }
 );
 
-// Auth API calls
+// Auth API calls with enhanced debugging
 export const authAPI = {
   register: async (userData: RegisterData): Promise<AuthResponse> => {
-    const response = await api.post<AuthResponse>('/auth/register/', userData);
+    console.log('📝 Register API called:', { email: userData.email });
     
-    // Auto-store tokens after registration
-    const { access, refresh, user } = response.data;
-    storeTokens(access, refresh);
-    storeUser(user);
-    
-    return response.data;
+    try {
+      const response = await api.post<AuthResponse>('/auth/register/', userData);
+      
+      console.log('✅ Register response:', {
+        status: response.status,
+        hasAccessToken: !!response.data.access,
+        hasRefreshToken: !!response.data.refresh,
+        accessTokenLength: response.data.access?.length,
+        userEmail: response.data.user?.email,
+      });
+      
+      // Auto-store tokens after registration
+      const { access, refresh, user } = response.data;
+      storeTokens(access, refresh);
+      storeUser(user);
+      
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ Register API error:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      throw error;
+    }
   },
   
   login: async (credentials: LoginCredentials): Promise<AuthResponse> => {
-    const response = await api.post<AuthResponse>('/auth/login/', credentials);
+    console.log('🔑 Login API called:', { email: credentials.email });
     
-    // Auto-store tokens after login
-    const { access, refresh, user } = response.data;
-    storeTokens(access, refresh);
-    storeUser(user);
-    
-    return response.data;
+    try {
+      const response = await api.post<AuthResponse>('/auth/login/', credentials);
+      
+      console.log('✅ Login response:', {
+        status: response.status,
+        hasAccessToken: !!response.data.access,
+        hasRefreshToken: !!response.data.refresh,
+        accessTokenLength: response.data.access?.length,
+        accessTokenPreview: response.data.access?.substring(0, 30) + '...',
+        userEmail: response.data.user?.email,
+      });
+      
+      // Auto-store tokens after login
+      const { access, refresh, user } = response.data;
+      storeTokens(access, refresh);
+      storeUser(user);
+      
+      console.log('🎉 Login successful!');
+      
+      return response.data;
+    } catch (error: any) {
+      console.error('❌ Login API error:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      throw error;
+    }
   },
   
   logout: async (): Promise<void> => {
+    console.log('🚪 Logout called');
     const refreshToken = getRefreshToken();
     if (refreshToken) {
       try {
         await api.post('/auth/logout/', { refresh: refreshToken });
+        console.log('✅ Logout API call successful');
       } catch (error) {
-        console.warn('Logout API call failed, but clearing local tokens anyway:', error);
+        console.warn('⚠️ Logout API call failed, but clearing local tokens anyway:', error);
       }
+    } else {
+      console.log('⚠️ No refresh token found for logout API call');
     }
     
     // Always clear local tokens
@@ -261,8 +348,20 @@ export const authAPI = {
   },
   
   getProfile: async (): Promise<User> => {
-    const response = await api.get<{ user: User }>('/auth/profile/');
-    return response.data.user;
+    console.log('👤 Getting user profile...');
+    
+    try {
+      const response = await api.get<{ user: User }>('/auth/profile/');
+      console.log('✅ Profile retrieved:', response.data.user.email);
+      return response.data.user;
+    } catch (error: any) {
+      console.error('❌ Get profile error:', {
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      throw error;
+    }
   },
   
   updateProfile: async (userData: Partial<User>): Promise<User> => {
@@ -329,17 +428,39 @@ export const setupAxios = (): void => {
   const token = getAccessToken();
   if (token) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    console.log('🔧 Axios initialized with token');
+  } else {
+    console.log('🔧 Axios initialized without token');
   }
 };
 
 // Debug function to check auth status
 export const debugAuth = (): void => {
-  console.log('=== Auth Debug Info ===');
+  const token = getAccessToken();
+  let decodedToken = null;
+  
+  if (token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      decodedToken = {
+        userId: payload.user_id,
+        expires: new Date(payload.exp * 1000),
+        tokenType: payload.token_type,
+      };
+    } catch (e) {
+      decodedToken = { error: 'Cannot decode' };
+    }
+  }
+  
+  console.log('=== 🔍 Auth Debug Info ===');
   console.log('API URL:', API_URL);
-  console.log('Access Token:', getAccessToken() ? '✓ Present' : '✗ Missing');
+  console.log('Access Token:', token ? `✓ Present (${token.length} chars)` : '✗ Missing');
+  console.log('Access Token Preview:', token ? `${token.substring(0, 50)}...` : 'N/A');
   console.log('Refresh Token:', getRefreshToken() ? '✓ Present' : '✗ Missing');
   console.log('User:', getUser());
+  console.log('Decoded Token:', decodedToken);
   console.log('Authenticated:', isAuthenticated());
+  console.log('LocalStorage keys:', Object.keys(localStorage));
   console.log('========================');
 };
 

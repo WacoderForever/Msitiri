@@ -1,7 +1,7 @@
 import { Car, Bike, Truck, Bus } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const categories = [
+const vehicleCategories = [
   {
     icon: Car,
     title: "Cars",
@@ -41,27 +41,24 @@ export function Categories() {
             Browse by Category
           </h2>
           <p className="text-muted-foreground mt-2">
-            Explore our wide selection of vehicles
+            Explore our wide selection of quality vehicles
           </p>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {categories.map((category, index) => (
+          {vehicleCategories.map((category, index) => (
             <Link
               key={index}
               to={category.href}
               className="group relative overflow-hidden rounded-2xl p-6 md:p-8 bg-card border border-border hover:border-primary/30 shadow-card hover:shadow-card-hover transition-all duration-300 animate-fade-up"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              {/* Background Gradient */}
               <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
 
-              {/* Icon */}
               <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br ${category.gradient} text-primary-foreground mb-4 group-hover:scale-110 transition-transform duration-300`}>
                 <category.icon className="h-7 w-7" />
               </div>
 
-              {/* Content */}
               <h3 className="font-display text-lg font-semibold text-foreground mb-1">
                 {category.title}
               </h3>
@@ -69,7 +66,6 @@ export function Categories() {
                 {category.count} listings
               </p>
 
-              {/* Arrow */}
               <div className="absolute bottom-6 right-6 w-8 h-8 rounded-full bg-secondary flex items-center justify-center opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300">
                 <svg className="w-4 h-4 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

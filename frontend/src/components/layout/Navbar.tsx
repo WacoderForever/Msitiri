@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Car, User, LogIn } from "lucide-react";
+import { Menu, X, ShoppingBag, User, LogIn, Car, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -20,7 +20,7 @@ export function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 group">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-hero transition-transform group-hover:scale-105">
-            <Car className="h-5 w-5 text-primary-foreground" />
+            <ShoppingBag className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className="font-display text-xl font-bold text-foreground">
             Msitiri
@@ -47,6 +47,18 @@ export function Navbar() {
 
         {/* Desktop Auth Buttons */}
         <div className="hidden md:flex items-center gap-3">
+          <Button variant="ghost" size="sm" asChild>
+            <Link to="/dealer">
+              <Car className="h-4 w-4" />
+              Dealer
+            </Link>
+          </Button>
+          <Button variant="ghost" size="sm" asChild>
+            <Link to="/admin">
+              <Shield className="h-4 w-4" />
+              Admin
+            </Link>
+          </Button>
           <Button variant="ghost" size="sm" asChild>
             <Link to="/login">
               <LogIn className="h-4 w-4" />
@@ -91,6 +103,18 @@ export function Navbar() {
               </Link>
             ))}
             <div className="flex flex-col gap-2 pt-4 border-t border-border mt-2">
+              <Button variant="outline" asChild>
+                <Link to="/dealer" onClick={() => setIsOpen(false)}>
+                  <Car className="h-4 w-4" />
+                  Dealer Panel
+                </Link>
+              </Button>
+              <Button variant="outline" asChild>
+                <Link to="/admin" onClick={() => setIsOpen(false)}>
+                  <Shield className="h-4 w-4" />
+                  Admin Panel
+                </Link>
+              </Button>
               <Button variant="outline" asChild>
                 <Link to="/login" onClick={() => setIsOpen(false)}>
                   <LogIn className="h-4 w-4" />

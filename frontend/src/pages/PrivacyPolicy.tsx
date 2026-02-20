@@ -1,375 +1,167 @@
 import { Layout } from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Lock, Eye, Shield, Database, UserCheck, MapPin, TrendingUp } from "lucide-react";
-import { Link } from "react-router-dom";
 
-export default function Privacy() {
+const PrivacyPolicy = () => {
   return (
     <Layout>
-      <div className="min-h-[calc(100vh-200px)] py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* Back button */}
-          <div className="mb-8">
-            <Link to="/register">
-              <Button variant="ghost" size="sm" className="gap-2">
-                <ArrowLeft className="h-4 w-4" />
-                Back to Registration
-              </Button>
-            </Link>
-          </div>
+      <div className="bg-muted/30 py-12">
+        <div className="container mx-auto px-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+            Privacy Policy
+          </h1>
+          <p className="text-muted-foreground">Last updated: January 2025</p>
+        </div>
+      </div>
 
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-              <Lock className="h-8 w-8 text-primary" />
-            </div>
-            <h1 className="font-display text-4xl font-bold text-foreground mb-4">
-              Msitiri Privacy Policy
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Protecting your data while empowering your purchasing decisions in Kenya's second-hand market
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-4xl mx-auto prose prose-gray dark:prose-invert">
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">1. Introduction</h2>
+            <p className="text-muted-foreground mb-4">
+              Msitiri ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our marketplace platform.
             </p>
-            <p className="text-sm text-muted-foreground mt-2">
-              Compliant with Kenya's Data Protection Act, 2019
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">2. Information We Collect</h2>
+            
+            <h3 className="text-xl font-medium text-foreground mb-3">Personal Information</h3>
+            <p className="text-muted-foreground mb-4">
+              When you register or use our services, we may collect:
             </p>
-          </div>
+            <ul className="list-disc pl-6 text-muted-foreground space-y-2 mb-4">
+              <li>Name and contact information (email, phone number)</li>
+              <li>Account credentials</li>
+              <li>Payment information (processed securely by third parties)</li>
+              <li>Location data (county/city for listings)</li>
+              <li>Communication history with other users</li>
+            </ul>
 
-          {/* Content */}
-          <div className="prose prose-lg max-w-none">
-            <div className="bg-card border border-border rounded-2xl p-8 space-y-8">
-              {/* Introduction */}
-              <section>
-                <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
-                  <Shield className="h-6 w-6 text-primary" />
-                  1. Our Commitment to Kenyan Users
-                </h2>
-                <div className="space-y-4 text-muted-foreground">
-                  <p>
-                    At Msitiri, we are committed to protecting your privacy in accordance with Kenya's Data Protection Act, 2019. This policy explains how we collect, use, and safeguard your information as you use our price comparison platform for second-hand vehicles and electronics in Kenya.
-                  </p>
-                  <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg">
-                    <p className="text-sm">
-                      <strong>Data Protection Officer:</strong> We have appointed a Data Protection Officer registered with the Office of the Data Protection Commissioner (ODPC) in Kenya.
-                    </p>
-                  </div>
-                </div>
-              </section>
+            <h3 className="text-xl font-medium text-foreground mb-3">Automatically Collected Information</h3>
+            <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+              <li>Device information (browser type, operating system)</li>
+              <li>IP address and location data</li>
+              <li>Usage data (pages visited, search queries, time spent)</li>
+              <li>Cookies and similar tracking technologies</li>
+            </ul>
+          </section>
 
-              {/* Information Collection */}
-              <section>
-                <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
-                  <Database className="h-6 w-6 text-primary" />
-                  2. Information We Collect
-                </h2>
-                <div className="space-y-6 text-muted-foreground">
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-3">Personal Identification Information</h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="bg-muted/30 p-4 rounded-lg">
-                        <h4 className="font-medium text-foreground mb-2">Required for Registration</h4>
-                        <ul className="space-y-1 text-sm">
-                          <li>• Full name (as per Kenyan ID)</li>
-                          <li>• Email address</li>
-                          <li>• Phone number (Kenyan format)</li>
-                          <li>• County of residence</li>
-                        </ul>
-                      </div>
-                      <div className="bg-muted/30 p-4 rounded-lg">
-                        <h4 className="font-medium text-foreground mb-2">Optional Information</h4>
-                        <ul className="space-y-1 text-sm">
-                          <li>• Profile picture</li>
-                          <li>• Preferred vehicle types</li>
-                          <li>• Budget ranges</li>
-                          <li>• Location preferences</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">3. How We Use Your Information</h2>
+            <p className="text-muted-foreground mb-4">
+              We use the collected information to:
+            </p>
+            <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+              <li>Provide and maintain our marketplace services</li>
+              <li>Process transactions and send related information</li>
+              <li>Facilitate communication between buyers and sellers</li>
+              <li>Improve our platform and user experience</li>
+              <li>Send promotional communications (with your consent)</li>
+              <li>Detect and prevent fraud or abuse</li>
+              <li>Comply with legal obligations</li>
+            </ul>
+          </section>
 
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-3">Transaction & Usage Data</h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-primary" />
-                          <h4 className="font-medium text-foreground">Location Data</h4>
-                        </div>
-                        <p className="text-sm">
-                          We collect approximate location data (county level) to provide localized price comparisons and dealer information across Kenya.
-                        </p>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <TrendingUp className="h-4 w-4 text-primary" />
-                          <h4 className="font-medium text-foreground">Search & Comparison Data</h4>
-                        </div>
-                        <p className="text-sm">
-                          Your search history, viewed listings, price comparisons, and saved items help us improve our algorithms and provide better recommendations.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">4. Information Sharing</h2>
+            <p className="text-muted-foreground mb-4">
+              We may share your information with:
+            </p>
+            <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+              <li><strong>Other Users:</strong> Your profile and listing information is visible to other platform users</li>
+              <li><strong>Service Providers:</strong> Third parties who assist in operating our platform</li>
+              <li><strong>Legal Requirements:</strong> When required by law or to protect our rights</li>
+              <li><strong>Business Transfers:</strong> In connection with any merger or acquisition</li>
+            </ul>
+            <p className="text-muted-foreground mt-4">
+              We do not sell your personal information to third parties.
+            </p>
+          </section>
 
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-3">Product Assessment Data</h3>
-                    <p className="text-sm">
-                      When you submit condition reports or reviews for vehicles/electronics, we collect:
-                    </p>
-                    <ul className="space-y-1 text-sm mt-2 pl-5">
-                      <li>• Product photos (with metadata removed)</li>
-                      <li>• Condition descriptions</li>
-                      <li>• Price paid information (optional)</li>
-                      <li>• Dealer/seller ratings</li>
-                      <li>• Transaction experience feedback</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">5. Data Security</h2>
+            <p className="text-muted-foreground mb-4">
+              We implement appropriate technical and organizational measures to protect your personal information, including:
+            </p>
+            <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+              <li>Encryption of data in transit and at rest</li>
+              <li>Secure authentication mechanisms</li>
+              <li>Regular security assessments</li>
+              <li>Access controls and monitoring</li>
+            </ul>
+            <p className="text-muted-foreground mt-4">
+              However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.
+            </p>
+          </section>
 
-              {/* How We Use Information */}
-              <section>
-                <h2 className="text-2xl font-bold text-foreground mb-4">3. How We Use Your Information</h2>
-                <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-foreground">Core Platform Functions</h3>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-start gap-2">
-                        <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                        <span>Provide accurate price comparisons across Kenyan markets</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                        <span>Generate condition assessments for vehicles & electronics</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                        <span>Personalize search results based on your preferences</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                        <span>Send price drop alerts and market updates</span>
-                      </li>
-                    </ul>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-foreground">Platform Improvement</h3>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-start gap-2">
-                        <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                        <span>Train our pricing algorithms with anonymized data</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                        <span>Analyze market trends in Kenya's second-hand economy</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                        <span>Improve fraud detection and user verification</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                        <span>Develop new features for Kenyan buyers</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">6. Your Rights</h2>
+            <p className="text-muted-foreground mb-4">
+              You have the right to:
+            </p>
+            <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+              <li>Access your personal information</li>
+              <li>Correct inaccurate data</li>
+              <li>Request deletion of your data</li>
+              <li>Opt-out of marketing communications</li>
+              <li>Request a copy of your data</li>
+            </ul>
+            <p className="text-muted-foreground mt-4">
+              To exercise these rights, please contact us using the information provided below.
+            </p>
+          </section>
 
-              {/* Data Sharing in Kenya */}
-              <section>
-                <h2 className="text-2xl font-bold text-foreground mb-4">4. Data Sharing Within Kenya</h2>
-                <div className="space-y-4 text-muted-foreground">
-                  <p>
-                    We may share anonymized, aggregated data with:
-                  </p>
-                  <div className="grid md:grid-cols-3 gap-4">
-                    <div className="bg-muted/30 p-4 rounded-lg">
-                      <h3 className="font-semibold text-foreground mb-2 text-sm">Kenyan Authorities</h3>
-                      <p className="text-xs">When required by law (courts, police, ODPC)</p>
-                    </div>
-                    <div className="bg-muted/30 p-4 rounded-lg">
-                      <h3 className="font-semibold text-foreground mb-2 text-sm">Research Partners</h3>
-                      <p className="text-xs">Universities studying Kenya's second-hand economy</p>
-                    </div>
-                    <div className="bg-muted/30 p-4 rounded-lg">
-                      <h3 className="font-semibold text-foreground mb-2 text-sm">Service Providers</h3>
-                      <p className="text-xs">Kenyan hosting, payment, and analytics partners</p>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 p-4 rounded-lg">
-                    <h3 className="font-semibold text-foreground mb-2">What We Never Share</h3>
-                    <ul className="space-y-1 text-sm">
-                      <li>• Your personal contact information with sellers</li>
-                      <li>• Your exact location data</li>
-                      <li>• Your search history with third parties</li>
-                      <li>• Your financial information (we don't store payment details)</li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">7. Cookies and Tracking</h2>
+            <p className="text-muted-foreground mb-4">
+              We use cookies and similar technologies to:
+            </p>
+            <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+              <li>Remember your preferences and settings</li>
+              <li>Understand how you use our platform</li>
+              <li>Provide personalized content and recommendations</li>
+              <li>Analyze platform performance</li>
+            </ul>
+            <p className="text-muted-foreground mt-4">
+              You can control cookies through your browser settings, but disabling them may affect platform functionality.
+            </p>
+          </section>
 
-              {/* Your Rights Under Kenyan Law */}
-              <section>
-                <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-2">
-                  <UserCheck className="h-6 w-6 text-primary" />
-                  5. Your Rights Under Data Protection Act, 2019
-                </h2>
-                <div className="grid md:grid-cols-2 gap-6 text-muted-foreground">
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-foreground">Access & Control Rights</h3>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-start gap-2">
-                        <Eye className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <div>
-                          <strong>Right to Access:</strong> Request copies of your personal data
-                        </div>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Eye className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <div>
-                          <strong>Right to Rectification:</strong> Correct inaccurate personal data
-                        </div>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Eye className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <div>
-                          <strong>Right to Erasure:</strong> Request deletion of your data
-                        </div>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Eye className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <div>
-                          <strong>Right to Restrict Processing:</strong> Limit how we use your data
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-foreground">Additional Protections</h3>
-                    <ul className="space-y-2 text-sm">
-                      <li className="flex items-start gap-2">
-                        <Eye className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <div>
-                          <strong>Right to Data Portability:</strong> Receive your data in usable format
-                        </div>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Eye className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <div>
-                          <strong>Right to Object:</strong> Object to certain data processing
-                        </div>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Eye className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <div>
-                          <strong>Rights Related to Automated Decision Making:</strong> Understand and challenge algorithmic decisions
-                        </div>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <Eye className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                        <div>
-                          <strong>Right to Lodge Complaints:</strong> With the ODPC Kenya
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </section>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">8. Data Retention</h2>
+            <p className="text-muted-foreground mb-4">
+              We retain your personal information for as long as necessary to provide our services and fulfill the purposes outlined in this policy. When you delete your account, we will delete or anonymize your information within 30 days, except where retention is required by law.
+            </p>
+          </section>
 
-              {/* Data Security */}
-              <section>
-                <h2 className="text-2xl font-bold text-foreground mb-4">6. Data Security & Storage</h2>
-                <div className="space-y-4 text-muted-foreground">
-                  <p>
-                    We implement robust security measures in compliance with Kenyan data protection standards:
-                  </p>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <h3 className="font-semibold text-foreground">Technical Measures</h3>
-                      <ul className="space-y-1 text-sm">
-                        <li>• End-to-end encryption for sensitive data</li>
-                        <li>• Secure servers located in Kenya</li>
-                        <li>• Regular security audits and penetration testing</li>
-                        <li>• Multi-factor authentication for admin access</li>
-                      </ul>
-                    </div>
-                    <div className="space-y-2">
-                      <h3 className="font-semibold text-foreground">Organizational Measures</h3>
-                      <ul className="space-y-1 text-sm">
-                        <li>• Data Protection Officer oversight</li>
-                        <li>• Employee data protection training</li>
-                        <li>• Strict access controls and logging</li>
-                        <li>• Incident response procedures</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <p className="text-sm">
-                    All personal data is stored on servers within Kenya, in compliance with data localization considerations under Kenyan law.
-                  </p>
-                </div>
-              </section>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">9. Children's Privacy</h2>
+            <p className="text-muted-foreground mb-4">
+              Msitiri is not intended for users under 18 years of age. We do not knowingly collect personal information from children. If we learn that we have collected information from a child, we will delete it promptly.
+            </p>
+          </section>
 
-              {/* Contact Information */}
-              <section>
-                <h2 className="text-2xl font-bold text-foreground mb-4">7. Contact Our Data Protection Team</h2>
-                <div className="space-y-4 text-muted-foreground">
-                  <p>
-                    To exercise your rights or for privacy-related inquiries:
-                  </p>
-                  <div className="bg-card border border-border p-6 rounded-lg">
-                    <div className="space-y-3">
-                      <div>
-                        <h3 className="font-semibold text-foreground">Data Protection Officer</h3>
-                        <p className="text-sm">
-                          Msitiri Limited<br />
-                          Attention: Data Protection Officer<br />
-                          Nairobi, Kenya
-                        </p>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground">Contact Details</h3>
-                        <p className="text-sm">
-                          <strong>Email:</strong> dpo@msitiri.co.ke<br />
-                          <strong>Phone:</strong> +254 711 674 8474 (Data Protection Line)<br />
-                          <strong>ODPC Registration:</strong> DPO-XXXX-XXXX
-                        </p>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-foreground">Office of the Data Protection Commissioner</h3>
-                        <p className="text-sm">
-                          For independent oversight, you may contact:<br />
-                          Office of the Data Protection Commissioner Kenya<br />
-                          P.O. Box 30920-00100, Nairobi<br />
-                          Tel: +254 202 210 173<br />
-                          Email: info@odpc.go.ke
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">10. Changes to This Policy</h2>
+            <p className="text-muted-foreground mb-4">
+              We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last updated" date.
+            </p>
+          </section>
 
-            {/* Updates & Compliance */}
-            <div className="mt-8 space-y-4">
-              <div className="p-6 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
-                <h3 className="font-semibold text-foreground mb-2">Our Compliance Commitment</h3>
-                <p className="text-sm text-muted-foreground">
-                  Msitiri is fully committed to compliance with Kenya's Data Protection Act, 2019. We regularly review and update our practices to ensure ongoing compliance with Kenyan data protection standards and regulations.
-                </p>
-              </div>
-              <div className="text-center text-sm text-muted-foreground">
-                <p>
-                  This Privacy Policy is effective from January 9, 2026. We will notify users of any material changes through platform announcements and email notifications where required by law.
-                </p>
-              </div>
-            </div>
-          </div>
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">11. Contact Us</h2>
+            <p className="text-muted-foreground mb-4">
+              If you have questions about this Privacy Policy or our data practices, please contact us at:
+            </p>
+            <p className="text-muted-foreground">
+              Email: privacy@msitiri.co.ke<br />
+              Address: Nairobi, Kenya<br />
+              Phone: +254 700 000 000
+            </p>
+          </section>
         </div>
       </div>
     </Layout>
   );
-}
+};
+
+export default PrivacyPolicy;

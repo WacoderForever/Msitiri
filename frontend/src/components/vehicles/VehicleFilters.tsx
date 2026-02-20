@@ -96,14 +96,14 @@ export function VehicleFilters({ filters, onFiltersChange, onReset }: VehicleFil
             placeholder="Min"
             value={filters.priceMin}
             onChange={(e) => updateFilter("priceMin", e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+            className="flex-1 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
           />
           <input
             type="number"
             placeholder="Max"
             value={filters.priceMax}
             onChange={(e) => updateFilter("priceMax", e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+            className="flex-1 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
           />
         </div>
       </div>
@@ -117,14 +117,14 @@ export function VehicleFilters({ filters, onFiltersChange, onReset }: VehicleFil
             placeholder="From"
             value={filters.yearMin}
             onChange={(e) => updateFilter("yearMin", e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+            className="flex-1 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
           />
           <input
             type="number"
             placeholder="To"
             value={filters.yearMax}
             onChange={(e) => updateFilter("yearMax", e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+            className="flex-1 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
           />
         </div>
       </div>

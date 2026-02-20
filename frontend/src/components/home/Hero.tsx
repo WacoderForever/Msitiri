@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { Search, ArrowRight, Shield, TrendingUp, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Hero() {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate(`/vehicles${searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ''}`);
+  };
 
   return (
     <section className="relative overflow-hidden gradient-hero">
@@ -25,8 +30,8 @@ export function Hero() {
 
           {/* Heading */}
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight animate-fade-up delay-100">
-            Find Your Perfect
-            <span className="block text-accent">Second-Hand Vehicle</span>
+            Find Quality
+            <span className="block text-accent">Second-Hand Vehicles</span>
           </h1>
 
           {/* Subheading */}
@@ -45,14 +50,13 @@ export function Hero() {
                   placeholder="Search for Toyota, Honda, BMW..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                   className="flex-1 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none py-2"
                 />
               </div>
-              <Button variant="hero" size="lg" asChild>
-                <Link to={`/vehicles${searchQuery ? `?search=${encodeURIComponent(searchQuery)}` : ''}`}>
-                  Search
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+              <Button variant="hero" size="lg" onClick={handleSearch}>
+                Search
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -60,7 +64,7 @@ export function Hero() {
           {/* Quick Stats */}
           <div className="flex flex-wrap justify-center gap-8 pt-8 animate-fade-up delay-400">
             {[
-              { icon: Users, value: "2,500+", label: "Active Dealers" },
+              { icon: Users, value: "3,500+", label: "Active Dealers" },
               { icon: TrendingUp, value: "15,000+", label: "Vehicles Listed" },
               { icon: Shield, value: "98%", label: "Satisfaction Rate" },
             ].map((stat, index) => (

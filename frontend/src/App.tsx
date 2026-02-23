@@ -12,11 +12,14 @@ import HowItWorks from "./pages/HowItWorks";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import NotFound from "./pages/NotFound";
+import DealerLogin from "./pages/dealer/DealerLogin";
+import DealerRegister from "./pages/dealer/DealerRegister";
 import DealerDashboard from "./pages/dealer/DealerDashboard";
 import DealerVehicles from "./pages/dealer/DealerVehicles";
 import DealerInquiries from "./pages/dealer/DealerInquiries";
 import DealerAnalytics from "./pages/dealer/DealerAnalytics";
 import DealerProfile from "./pages/dealer/DealerProfile";
+import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminListings from "./pages/admin/AdminListings";
@@ -42,12 +45,15 @@ const App = () => (
           <Route path="/privacy" element={<PrivacyPolicy />} />
           {/* Dealer Routes */}
           <Route path="/dealer" element={<DealerDashboard />} />
+          <Route path="/dealer/login" element={<DealerLogin />} />
+          <Route path="/dealer/register" element={<DealerRegister />} />
           <Route path="/dealer/vehicles" element={<DealerVehicles />} />
           <Route path="/dealer/inquiries" element={<DealerInquiries />} />
           <Route path="/dealer/analytics" element={<DealerAnalytics />} />
           <Route path="/dealer/profile" element={<DealerProfile />} />
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/listings" element={<AdminListings />} />
           <Route path="/admin/analytics" element={<AdminAnalytics />} />

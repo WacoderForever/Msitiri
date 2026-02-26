@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
@@ -60,6 +61,21 @@ export default function Register() {
     else if (role === "dealer") setDealerData((p) => ({ ...p, [name]: value }));
     else setAdminData((p) => ({ ...p, [name]: value }));
     if (errors[name]) setErrors((p) => ({ ...p, [name]: undefined }));
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const schema = role === "customer" ? customerSchema : role === "dealer" ? dealerSchema : adminSchema;
+    const data = role === "customer" ? { ...customerData } : role === "dealer" ? { ...dealerData } : { ...adminData };
+    const result = schema.safeParse(data);
+    if (!result.success) {
+      const fieldError = result.error.errors.find((err) => err.path[0] === name);
+      if (fieldError) {
+        setErrors((p) => ({ ...p, [name]: fieldError.message }));
+      }
+    } else {
+      setErrors((p) => ({ ...p, [name]: undefined }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -131,7 +147,7 @@ export default function Register() {
                 <label htmlFor="dealershipName" className="block text-sm font-medium text-foreground mb-2">Dealership Name</label>
                 <div className="relative">
                   <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <input id="dealershipName" name="dealershipName" value={dealerData.dealershipName} onChange={handleChange} placeholder="AutoPrime Motors" className={inputClass("dealershipName")} />
+                 <input id="dealershipName" name="dealershipName" value={dealerData.dealershipName} onChange={handleChange} onBlur={handleBlur} placeholder="AutoPrime Motors" className={inputClass("dealershipName")} />
                 </div>
                 {errors.dealershipName && <p className="mt-1 text-xs text-destructive">{errors.dealershipName}</p>}
               </div>
@@ -144,7 +160,7 @@ export default function Register() {
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <input id={nameField} name={nameField} value={nameValue} onChange={handleChange} placeholder="John Kamau" className={inputClass(nameField)} />
+                <input id={nameField} name={nameField} value={nameValue} onChange={handleChange} onBlur={handleBlur} placeholder="John Kamau" className={inputClass(nameField)} />
               </div>
               {(errors.fullName || errors.contactName) && <p className="mt-1 text-xs text-destructive">{errors.fullName || errors.contactName}</p>}
             </div>
@@ -156,7 +172,7 @@ export default function Register() {
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <input id="email" name="email" type="email" value={role === "customer" ? customerData.email : role === "dealer" ? dealerData.email : adminData.email} onChange={handleChange} placeholder={role === "dealer" ? "info@autoprime.co.ke" : role === "admin" ? "admin@msitiri.co.ke" : "you@example.com"} className={inputClass("email")} />
+                <input id="email" name="email" type="email" value={role === "customer" ? customerData.email : role === "dealer" ? dealerData.email : adminData.email} onChange={handleChange} onBlur={handleBlur} placeholder={role === "dealer" ? "info@autoprime.co.ke" : role === "admin" ? "admin@msitiri.co.ke" : "you@example.com"} className={inputClass("email")} />
               </div>
               {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
             </div>
@@ -167,7 +183,7 @@ export default function Register() {
                 <label htmlFor="phone" className="block text-sm font-medium text-foreground mb-2">Phone Number</label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <input id="phone" name="phone" type="tel" value={role === "dealer" ? dealerData.phone : customerData.phone} onChange={handleChange} placeholder="+254712345678" className={inputClass("phone")} />
+                  <input id="phone" name="phone" type="tel" value={role === "dealer" ? dealerData.phone : customerData.phone} onChange={handleChange} onBlur={handleBlur} placeholder="+254712345678" className={inputClass("phone")} />
                 </div>
                 {errors.phone ? <p className="mt-1 text-xs text-destructive">{errors.phone}</p> : <p className="mt-1 text-xs text-muted-foreground">Include country code, e.g. +254712345678</p>}
               </div>
@@ -179,7 +195,7 @@ export default function Register() {
                 <label htmlFor="adminCode" className="block text-sm font-medium text-foreground mb-2">Admin Invitation Code</label>
                 <div className="relative">
                   <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <input id="adminCode" name="adminCode" value={adminData.adminCode} onChange={handleChange} placeholder="Enter your invitation code" className={inputClass("adminCode")} />
+                  <input id="adminCode" name="adminCode" value={adminData.adminCode} onChange={handleChange} onBlur={handleBlur} placeholder="Enter your invitation code" className={inputClass("adminCode")} />
                 </div>
                 {errors.adminCode ? <p className="mt-1 text-xs text-destructive">{errors.adminCode}</p> : <p className="mt-1 text-xs text-muted-foreground">Contact a system administrator for your code</p>}
               </div>
@@ -190,7 +206,7 @@ export default function Register() {
               <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <input id="password" name="password" type={showPassword ? "text" : "password"} value={role === "customer" ? customerData.password : role === "dealer" ? dealerData.password : adminData.password} onChange={handleChange} placeholder="Create a strong password" className={`${inputClass("password")} !pr-12`} />
+                <input id="password" name="password" type={showPassword ? "text" : "password"} value={role === "customer" ? customerData.password : role === "dealer" ? dealerData.password : adminData.password} onChange={handleChange} onBlur={handleBlur} placeholder="Create a strong password" className={`${inputClass("password")} !pr-12`} />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -203,7 +219,7 @@ export default function Register() {
               <label htmlFor="confirmPassword" className="block text-sm font-medium text-foreground mb-2">Confirm Password</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <input id="confirmPassword" name="confirmPassword" type={showPassword ? "text" : "password"} value={role === "customer" ? customerData.confirmPassword : role === "dealer" ? dealerData.confirmPassword : adminData.confirmPassword} onChange={handleChange} placeholder="Confirm your password" className={inputClass("confirmPassword")} />
+                <input id="confirmPassword" name="confirmPassword" type={showPassword ? "text" : "password"} value={role === "customer" ? customerData.confirmPassword : role === "dealer" ? dealerData.confirmPassword : adminData.confirmPassword} onChange={handleChange} onBlur={handleBlur} placeholder="Confirm your password" className={inputClass("confirmPassword")} />
               </div>
               {errors.confirmPassword && <p className="mt-1 text-xs text-destructive">{errors.confirmPassword}</p>}
             </div>

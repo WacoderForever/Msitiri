@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 from .models import User
 
@@ -43,13 +44,21 @@ class RegisterSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Contact name is required for dealers.")
 
         if role == 'admin':
-            if data.get('admin_code') != "MSITIRI2026":
-                raise serializers.ValidationError("Invalid admin code.")
+            if not data.get("admin_code"):
+                raise serializers.ValidationError(
+                    {"admin_code": "Admin invitation code is required."}
+                )
+
+            if data["admin_code"] != settings.ADMIN_INVITE_CODE:
+                raise serializers.ValidationError(
+                    {"admin_code": "Invalid admin invitation code."}
+                )
 
         return data
 
     def create(self, validated_data):
         validated_data.pop('confirm_password')
+        validated_data.pop("admin_code", None)
 
         password = validated_data.pop('password')
 

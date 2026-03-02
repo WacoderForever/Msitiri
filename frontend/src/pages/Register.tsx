@@ -79,23 +79,101 @@ export default function Register() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const schema = role === "customer" ? customerSchema : role === "dealer" ? dealerSchema : adminSchema;
-    const data = role === "customer" ? customerData : role === "dealer" ? dealerData : adminData;
-    const result = schema.safeParse(data);
-    if (!result.success) {
-      const fe: FieldErrors = {};
-      result.error.errors.forEach((err) => { const f = err.path[0] as string; if (!fe[f]) fe[f] = err.message; });
-      setErrors(fe);
-      return;
+  e.preventDefault();
+
+  const schema =
+    role === "customer"
+      ? customerSchema
+      : role === "dealer"
+      ? dealerSchema
+      : adminSchema;
+
+  const data =
+    role === "customer"
+      ? customerData
+      : role === "dealer"
+      ? dealerData
+      : adminData;
+
+  const result = schema.safeParse(data);
+
+  if (!result.success) {
+    const fe: FieldErrors = {};
+    result.error.errors.forEach((err) => {
+      const f = err.path[0] as string;
+      if (!fe[f]) fe[f] = err.message;
+    });
+    setErrors(fe);
+    return;
+  }
+
+  setErrors({});
+  setIsLoading(true);
+
+  try {
+    let payload: any = {};
+
+    if (role === "customer") {
+      payload = {
+        full_name: customerData.fullName,
+        email: customerData.email,
+        phone: customerData.phone,
+        password: customerData.password,
+        confirm_password: customerData.confirmPassword,
+        role: "customer",
+      };
     }
-    setErrors({});
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate(role === "dealer" ? "/dealer" : role === "admin" ? "/admin" : "/");
-    }, 1000);
-  };
+
+    if (role === "dealer") {
+      payload = {
+        dealership_name: dealerData.dealershipName,
+        contact_name: dealerData.contactName,
+        email: dealerData.email,
+        phone: dealerData.phone,
+        password: dealerData.password,
+        confirm_password: dealerData.confirmPassword,
+        role: "dealer",
+      };
+    }
+
+    if (role === "admin") {
+      payload = {
+        full_name: adminData.fullName,
+        email: adminData.email,
+        password: adminData.password,
+        confirm_password: adminData.confirmPassword,
+        role: "admin",
+        admin_code: adminData.adminCode,
+      };
+    }
+
+    await axios.post(
+      "http://127.0.0.1:5000/api/accounts/register/",
+      payload
+    );
+
+    setIsLoading(false);
+
+    alert("Registration successful!");
+
+    navigate(`/login?role=${role}`);
+  } catch (error: any) {
+    setIsLoading(false);
+
+    if (error.response && error.response.data) {
+      const backendErrors = error.response.data;
+      const fe: FieldErrors = {};
+
+      Object.keys(backendErrors).forEach((key) => {
+        fe[key] = backendErrors[key][0];
+      });
+
+      setErrors(fe);
+    } else {
+      alert("Network error. Please try again.");
+    }
+  }
+};
 
   const inputClass = (field: string) =>
     `w-full pl-10 pr-4 py-3 rounded-xl border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-colors ${

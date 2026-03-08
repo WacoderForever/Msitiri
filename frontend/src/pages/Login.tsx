@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -100,12 +101,12 @@ export default function Login() {
         password,
       });
 
-      const { access, refresh } = response.data;
+      const { access, refresh, user } = response.data;
 
       // Save tokens
       localStorage.setItem("access_token", access);
       localStorage.setItem("refresh_token", refresh);
-      localStorage.setItem("user_role", role);
+      localStorage.setItem("user_role", user.role);
 
       // Redirect based on role
       if (role === "customer") navigate("/");
@@ -116,7 +117,7 @@ export default function Login() {
       console.error(error);
 
       setErrors({
-        password: "Invalid email or password",
+        password: error.response?.data?.detail || "Login failed",
       });
 
     } finally {
